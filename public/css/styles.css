@@ -253,3 +253,89 @@ h2 + p {
 .attribution a {
   color: hsl(228, 45%, 44%);
 }
+@media screen and (min-width: 768px) {
+  .header-right {
+    width: 60%;
+  }
+  .header-right.isActive {
+    transform: translateX(30%);
+  }
+  .img-hero {
+    background-size: contain;
+    background-position: center;
+  }
+}
+@media screen and (min-width: 1024px) {
+  .hamburger-btn {
+    display: none;
+  }
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    margin-bottom: 10rem;
+  }
+  .header-left {
+    margin-bottom: 0;
+  }
+  .header-right {
+    position: initial;
+    transform: translateX(0);
+    background-color: var(--White);
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0;
+  }
+  .header-right ul:first-child {
+    border-bottom: transparent;
+  }
+  .header-right ul {
+    display: flex;
+    margin: 0;
+    align-items: center;
+    gap: 2rem;
+  }
+  .header-item {
+    text-align: initial;
+    margin-bottom: 0;
+  }
+  .header-item a {
+    color: var(--Grayish-Violet);
+    font-weight: 700;
+  }
+  .header-right ul:first-child + ul li:last-child {
+    padding: 0.5rem 1rem;
+  }
+  .header-right ul:first-child + ul li:last-child a {
+    color: var(--White);
+  }
+  .main-initial {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    position: relative;
+    margin-bottom: 15rem;
+  }
+  .img-hero {
+    position: absolute;
+    height: 600px;
+    width: 100%;
+    background-position: right -7rem top;
+  }
+  .wrapper {
+    width: 70%;
+  }
+  h1 {
+    font-size: 4.5rem;
+    width: 50%;
+    text-align: initial;
+  }
+  h1 + .main-paraph {
+    text-align: initial;
+    width: 50%;
+  }
+  .main-paraph + .link-get-started {
+    display: inline-block;
+  }
+}
