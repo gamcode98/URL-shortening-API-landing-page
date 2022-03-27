@@ -63,13 +63,12 @@
       </div>
     </section>
 
-
-
     <section class="main-section-gray">
       <form class="shortener-form wrapper">
-        <input type="text" placeholder="Shorten a link here...">
-        <input type="submit" value="Shorten It!">
+        <input id="long-url" type="text" placeholder="Shorten a link here...">
+        <input id="btn-url" type="submit" value="Shorten It!">
       </form>
+      <!-- Shorterned link above-->
       <div class="wrapper">
         <h2>Advanced Statistics</h2>
         <p class="main-paraph">Track how your links are performing across the web with our
@@ -173,7 +172,18 @@
     </div>
   </footer>
 
-  <script src="./js/app.js"></script>
+
+  <template id="link-shorterned-template">
+    <div class="link-shorterned-container wrapper">
+      <p class="link-original"></p>
+      <div class="link-shorterned">
+        <p></p>
+        <button class="btn-copy">Copy</button>
+      </div>
+    </div>
+  </template>
+
+  <script type="module" src="./js/index.js"></script>
 </body>
 
 </html>

@@ -122,6 +122,7 @@ h1 {
   background-repeat: no-repeat;
   background-position: right top;
   background-color: var(--Dark-Violet);
+  margin-bottom: 2.5rem;
 }
 input {
   box-sizing: border-box;
@@ -144,6 +145,49 @@ input[type="submit"] {
   color: var(--White);
   font-weight: 700;
   cursor: pointer;
+}
+.link-shorterned-container {
+  border-radius: 0.5rem;
+  transform: translateY(-50%);
+  margin-bottom: 1.2rem;
+  background-color: var(--White);
+}
+
+.link-original {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  border-bottom: 1px solid var(--Gray);
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  color: var(--Very-Dark-Violet);
+}
+.link-shorterned {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-bottom: 1rem;
+}
+.link-shorterned p {
+  color: var(--Cyan);
+}
+.btn-copy {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  border-radius: 0.3rem;
+  display: inline-block;
+  font-size: 1rem;
+  font-weight: 700;
+  width: 100%;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  background-color: var(--Cyan);
+  color: var(--White);
+}
+.btn-copy:hover {
+  background-color: var(--Cyan-High);
+}
+.btn-copy.isActive {
+  background-color: var(--Very-Dark-Violet);
 }
 .main-section-gray {
   background-color: var(--Gray-Section);
@@ -351,6 +395,8 @@ h2 + p {
     align-items: center;
     padding: 2rem;
     gap: 2rem;
+    box-sizing: border-box;
+    margin-bottom: initial;
   }
   input[type="text"] {
     margin-bottom: initial;
@@ -360,6 +406,31 @@ h2 + p {
   }
   input[type="submit"]:hover {
     background-color: var(--Cyan-High);
+  }
+  .link-shorterned-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    box-sizing: border-box;
+  }
+  .link-original {
+    margin: 0;
+    border-bottom: none;
+    padding: initial;
+  }
+  .link-shorterned {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: initial;
+  }
+  .link-shorterned p {
+    margin: 0;
+  }
+  .btn-copy {
+    width: 100px;
+    padding: 0.7rem;
   }
   h2 {
     font-size: 3rem;
