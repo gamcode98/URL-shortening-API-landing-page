@@ -146,6 +146,22 @@ input[type="submit"] {
   font-weight: 700;
   cursor: pointer;
 }
+.error {
+  color: var(--Red);
+  font-style: italic;
+  margin-top: -0.5rem;
+  font-size: 0.8rem;
+  box-sizing: border-box;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.none {
+  display: none;
+}
+input[type="text"].isInvalid {
+  border: 2px solid var(--Red);
+}
 .link-shorterned-container {
   border-radius: 0.5rem;
   transform: translateY(-50%);
@@ -393,10 +409,14 @@ h2 + p {
   .shortener-form {
     display: flex;
     align-items: center;
-    padding: 2rem;
+    padding: 3rem;
     gap: 2rem;
     box-sizing: border-box;
     margin-bottom: initial;
+  }
+  .error {
+    position: absolute;
+    bottom: 0.4rem;
   }
   input[type="text"] {
     margin-bottom: initial;

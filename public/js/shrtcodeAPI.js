@@ -4,6 +4,7 @@ export default function shortUrl() {
   const $longUrl = d.getElementById("long-url");
   const $btnUrl = d.getElementById("btn-url");
   const $shortenerForm = d.querySelector(".shortener-form");
+
   let btnCopyExsist = false;
 
   const returningContent = () => {
@@ -60,33 +61,35 @@ export default function shortUrl() {
     } catch (error) {
       let message = error.statusText || "Something went wrong";
       // $fetchAsync.innerHTML = `Error ${err.status}: ${message}`;
-      console.log(message);
-      console.log(error.status);
+      // console.log(message);
+      // console.log(error.status);
     }
   };
 
-  const validateURL = (origin) => {
-    try {
-      const url = new URL(origin);
-      if (url.origin !== "null") {
-        if (url.protocol === "http:" || url.protocol === "https:") {
-          return getShortUl(origin);
-        }
-        throw new Error("tiene que tener https://");
-      }
-      throw new Error("no válida 😲");
-    } catch (error) {
-      console.log(error);
-      // if (error.message === "Invalid URL") {
-      //   req.flash("mensajes", [{ msg: "url no válida" }]);
-      // } else {
-      //   req.flash("mensajes", [{ msg: error.message }]);
-      // }
-      // return res.redirect("/");
-    }
-  };
+  const $p = d.createElement("p");
+  $p.textContent = "Please add a link with http:// or https://";
+  $p.classList.add("error", "none");
+  $longUrl.insertAdjacentElement("afterend", $p);
+  let validated = false;
+
+  $longUrl.addEventListener("keyup", () => {
+    let pattern = /^h{1}t{2}ps?:{1}\/{2}\w+\.\w+/;
+    let regex = new RegExp(pattern);
+
+    !regex.exec($longUrl.value)
+      ? ($p.classList.remove("none"), (validated = false))
+      : ($p.classList.add("none"), (validated = true));
+  });
+
   $btnUrl.addEventListener("click", (e) => {
     e.preventDefault();
-    validateURL($longUrl.value);
+    if ($longUrl.value === "") {
+      $p.classList.remove("none");
+    } else {
+      if (validated) {
+        $p.classList.add("none");
+        getShortUl($longUrl.value);
+      }
+    }
   });
 }
