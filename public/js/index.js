@@ -4,5 +4,5 @@ import shortUrl from "./shrtcodeAPI.js";
 const d = document;
 d.addEventListener("DOMContentLoaded", (e) => {
   hamburgerMenu();
-  shortUrl();
 });
+shortUrl();

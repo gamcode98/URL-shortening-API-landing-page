@@ -4,11 +4,34 @@ export default function shortUrl() {
   const $longUrl = d.getElementById("long-url");
   const $btnUrl = d.getElementById("btn-url");
   const $shortenerForm = d.querySelector(".shortener-form");
-
+  const ls = localStorage;
+  let $shorternedLinks;
+  const abcdario = "abcdefghlijklmnopqrstuvwyz";
+  const abcdarioArray = [...abcdario];
+  const emptyArray = [];
   let btnCopyExsist = false;
 
   const returningContent = () => {
     const $btnCopy = d.querySelectorAll(".btn-copy");
+    $shorternedLinks = d.querySelectorAll(".link-shorterned p");
+    let i = 0;
+
+    // $shorternedLinks.forEach((el) => {
+    //   console.log(i, abcdarioArray[i]);
+    //   // ls.setItem(`${el.textContent}`, el.textContent)
+    //   ls.setItem(`${abcdarioArray[i]}`, el.textContent);
+    //   i++;
+    // });
+
+    $shorternedLinks.forEach((el) => {
+      emptyArray.push(el.textContent);
+      console.log(emptyArray);
+    });
+
+    // $shorternedLinks.forEach((el) => {
+    //   ls.getItem(`${el.textContent}`);
+    //   console.log(ls.getItem(`${el.textContent}`));
+    // });
 
     $btnCopy.forEach((btn) => {
       btn.addEventListener("click", () => {
@@ -53,7 +76,7 @@ export default function shortUrl() {
       let res = await fetch(`https://api.shrtco.de/v2/shorten?url=${origin}`);
       let json = await res.json();
       if (!res.ok) throw { status: res.status, statusText: res.statusText };
-      console.log(json);
+      // console.log(json);
       addTemplateInIndexHTML(
         json.result.original_link,
         json.result.full_short_link3
@@ -91,5 +114,19 @@ export default function shortUrl() {
         getShortUl($longUrl.value);
       }
     }
+  });
+
+  console.log(emptyArray);
+
+  emptyArray.forEach((el) => console.log(el));
+
+  d.addEventListener("DOMContentLoaded", () => {
+    // for (let index = 0; index < 20; index++) {
+    //   console.log(ls);
+    // }
+    // console.log($shorternedLinks);
+    // console.log("hii");
+    emptyArray.forEach((el) => console.log(el));
+    // $shorternedLinks.forEach((el) => console.log(el.textContent));
   });
 }
