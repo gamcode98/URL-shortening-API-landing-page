@@ -1,74 +1,19 @@
 export default function shortUrl() {
   const d = document;
+  const ls = localStorage;
   const $template = d.getElementById("link-shorterned-template").content;
   const $longUrl = d.getElementById("long-url");
   const $btnUrl = d.getElementById("btn-url");
-  const $shortenerForm = d.querySelector(".shortener-form");
-  const ls = localStorage;
-  let $shorternedLinks;
-  const abcdario = "abcdefghlijklmnopqrstuvwyz";
-  const abcdarioArray = [...abcdario];
-  const emptyArray = [];
-  let btnCopyExsist = false;
+  const $paintedLinks = d.getElementById("painted-links");
+  let shortsLinks = [];
 
-  const returningContent = () => {
-    const $btnCopy = d.querySelectorAll(".btn-copy");
-    $shorternedLinks = d.querySelectorAll(".link-shorterned p");
-    let i = 0;
-
-    // $shorternedLinks.forEach((el) => {
-    //   console.log(i, abcdarioArray[i]);
-    //   // ls.setItem(`${el.textContent}`, el.textContent)
-    //   ls.setItem(`${abcdarioArray[i]}`, el.textContent);
-    //   i++;
-    // });
-
-    $shorternedLinks.forEach((el) => {
-      emptyArray.push(el.textContent);
-      console.log(emptyArray);
-    });
-
-    // $shorternedLinks.forEach((el) => {
-    //   ls.getItem(`${el.textContent}`);
-    //   console.log(ls.getItem(`${el.textContent}`));
-    // });
-
-    $btnCopy.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        navigator.clipboard
-          .writeText(btn.previousElementSibling.textContent)
-          .then(() => {
-            console.log("Text copied to clipboard...");
-          })
-          .catch((err) => {
-            console.log("something went wrong", err);
-          });
-
-        btn.textContent = "Copied!";
-        btn.classList.add("isActive");
-
-        setTimeout(() => {
-          btn.textContent = "Copy";
-          btn.classList.remove("isActive");
-        }, 1000);
-      });
-    });
-  };
-
-  const insertAfter = (e, i) => {
-    if (e.nextSibling) {
-      e.parentNode.insertBefore(i, e.nextSibling);
-    } else {
-      e.parentNode.appendChild(i);
-    }
-  };
-
-  const addTemplateInIndexHTML = (originalLink, fullShortLink3) => {
-    $template.querySelector(".link-original").textContent = originalLink;
-    $template.querySelector(".link-shorterned p").textContent = fullShortLink3;
-    let $clone = document.importNode($template, true);
-    insertAfter($shortenerForm, $clone);
-    btnCopyExsist ? (btnCopyExsist = true) : returningContent();
+  const addShortsLinks = (originalLink, fullShortLink3) => {
+    const objectShortsLinks = {
+      original_link: originalLink,
+      full_short_link_3: fullShortLink3,
+      id: `${crypto.randomUUID()}`,
+    };
+    shortsLinks.push(objectShortsLinks);
   };
 
   const getShortUl = async (origin) => {
@@ -76,17 +21,31 @@ export default function shortUrl() {
       let res = await fetch(`https://api.shrtco.de/v2/shorten?url=${origin}`);
       let json = await res.json();
       if (!res.ok) throw { status: res.status, statusText: res.statusText };
-      // console.log(json);
-      addTemplateInIndexHTML(
-        json.result.original_link,
-        json.result.full_short_link3
-      );
+      addShortsLinks(json.result.original_link, json.result.full_short_link3);
     } catch (error) {
       let message = error.statusText || "Something went wrong";
       // $fetchAsync.innerHTML = `Error ${err.status}: ${message}`;
       // console.log(message);
       // console.log(error.status);
     }
+  };
+  //Insert html content
+  const addTemplateShorternedLink = () => {
+    ls.setItem("shorterned_links", JSON.stringify(shortsLinks));
+    $paintedLinks.textContent = "";
+    const $fragment = d.createDocumentFragment();
+
+    shortsLinks.forEach((el) => {
+      const $clone = $template.cloneNode(true);
+
+      $clone.querySelector(".link-original").textContent = el.original_link;
+      $clone.querySelector(".link-shorterned p").textContent =
+        el.full_short_link_3;
+      $clone.querySelector(".btn-copy").dataset.id = el.id;
+
+      $fragment.appendChild($clone);
+    });
+    $paintedLinks.appendChild($fragment);
   };
 
   const $p = d.createElement("p");
@@ -95,6 +54,7 @@ export default function shortUrl() {
   $longUrl.insertAdjacentElement("afterend", $p);
   let validated = false;
 
+  //Validation listener
   $longUrl.addEventListener("keyup", () => {
     let pattern = /^h{1}t{2}ps?:{1}\/{2}\w+\.\w+/;
     let regex = new RegExp(pattern);
@@ -104,6 +64,7 @@ export default function shortUrl() {
       : ($p.classList.add("none"), (validated = true));
   });
 
+  //Add link
   $btnUrl.addEventListener("click", (e) => {
     e.preventDefault();
     if ($longUrl.value === "") {
@@ -112,21 +73,40 @@ export default function shortUrl() {
       if (validated) {
         $p.classList.add("none");
         getShortUl($longUrl.value);
+        setTimeout(() => {
+          addTemplateShorternedLink();
+        }, 5000);
       }
     }
   });
 
-  console.log(emptyArray);
+  //Copy clipboard and remove link
 
-  emptyArray.forEach((el) => console.log(el));
+  d.addEventListener("click", (e) => {
+    if (e.target.matches(".btn-copy")) {
+      let linkCopy = shortsLinks.filter((el) => el.id === e.target.dataset.id);
+      let url = linkCopy[0].full_short_link_3;
+      navigator.clipboard
+        .writeText(url)
+        .then(() => {
+          e.target.classList.add("isActive");
+          e.target.textContent = "Copied!";
+          setTimeout(() => {
+            e.target.classList.remove("isActive");
+            e.target.textContent = "Copy";
+          }, 1000);
+        })
+        .catch((err) => {
+          console.log(err);
+          e.target.textContent = "Error!";
+        });
+    }
+  });
 
   d.addEventListener("DOMContentLoaded", () => {
-    // for (let index = 0; index < 20; index++) {
-    //   console.log(ls);
-    // }
-    // console.log($shorternedLinks);
-    // console.log("hii");
-    emptyArray.forEach((el) => console.log(el));
-    // $shorternedLinks.forEach((el) => console.log(el.textContent));
+    if (ls.getItem("shorterned_links")) {
+      shortsLinks = JSON.parse(ls.getItem("shorterned_links"));
+      addTemplateShorternedLink();
+    }
   });
 }
