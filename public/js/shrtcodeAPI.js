@@ -5,6 +5,8 @@ export default function shortUrl() {
   const $longUrl = d.getElementById("long-url");
   const $btnUrl = d.getElementById("btn-url");
   const $paintedLinks = d.getElementById("painted-links");
+  const $modal = d.querySelector("dialog");
+
   let shortsLinks = [];
 
   const addShortsLinks = (originalLink, fullShortLink3) => {
@@ -24,10 +26,13 @@ export default function shortUrl() {
       if (!res.ok) throw { status: res.status, statusText: res.statusText };
       addShortsLinks(json.result.original_link, json.result.full_short_link3);
     } catch (error) {
-      let message = error.statusText || "Something went wrong";
-      // $fetchAsync.innerHTML = `Error ${err.status}: ${message}`;
-      // console.log(message);
-      // console.log(error.status);
+      let message =
+        `${error.statusText}` ||
+        `Something went wrong with API. Error: ${error.status}`;
+      const $pError = d.createElement("p");
+      $pError.classList.add("wrapper", "errorAPI");
+      $pError.textContent = message;
+      $paintedLinks.appendChild($pError);
     }
   };
   //Insert html content
@@ -66,8 +71,6 @@ export default function shortUrl() {
       : ($p.classList.add("none"), (validated = true));
   });
 
-  const $modal = d.querySelector("dialog");
-
   //Add link
   $btnUrl.addEventListener("click", (e) => {
     e.preventDefault();
@@ -82,7 +85,6 @@ export default function shortUrl() {
           addTemplateShorternedLink();
           $modal.close();
         }, 3000);
-
         $longUrl.value = "";
       }
     }

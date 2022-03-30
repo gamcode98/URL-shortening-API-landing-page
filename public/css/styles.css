@@ -177,6 +177,9 @@ input[type="text"].isInvalid {
   padding-top: 1rem;
   padding-bottom: 1rem;
   color: var(--Very-Dark-Violet);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .link-shorterned {
   padding-left: 1rem;
@@ -332,6 +335,12 @@ dialog {
   border: none;
   background: transparent;
 }
+.errorAPI {
+  text-align: center;
+  color: var(--Red);
+  font-weight: 700;
+  font-size: 2rem;
+}
 @media screen and (min-width: 768px) {
   .header-right {
     width: 60%;
@@ -454,6 +463,7 @@ dialog {
     border-bottom: none;
     padding: initial;
   }
+
   .link-shorterned {
     display: flex;
     align-items: center;
