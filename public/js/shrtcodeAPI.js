@@ -11,7 +11,8 @@ export default function shortUrl() {
     const objectShortsLinks = {
       original_link: originalLink,
       full_short_link_3: fullShortLink3,
-      id: `${crypto.randomUUID()}`,
+      id_copy_btn: `${crypto.randomUUID()}`,
+      id_delete_btn: `${crypto.randomUUID()}`,
     };
     shortsLinks.push(objectShortsLinks);
   };
@@ -41,7 +42,8 @@ export default function shortUrl() {
       $clone.querySelector(".link-original").textContent = el.original_link;
       $clone.querySelector(".link-shorterned p").textContent =
         el.full_short_link_3;
-      $clone.querySelector(".btn-copy").dataset.id = el.id;
+      $clone.querySelector(".btn-copy").dataset.id = el.id_copy_btn;
+      $clone.querySelector(".btn-delete").dataset.id = el.id_delete_btn;
 
       $fragment.appendChild($clone);
     });
@@ -64,6 +66,8 @@ export default function shortUrl() {
       : ($p.classList.add("none"), (validated = true));
   });
 
+  const $modal = d.querySelector("dialog");
+
   //Add link
   $btnUrl.addEventListener("click", (e) => {
     e.preventDefault();
@@ -73,9 +77,13 @@ export default function shortUrl() {
       if (validated) {
         $p.classList.add("none");
         getShortUl($longUrl.value);
+        $modal.showModal();
         setTimeout(() => {
           addTemplateShorternedLink();
-        }, 5000);
+          $modal.close();
+        }, 3000);
+
+        $longUrl.value = "";
       }
     }
   });
@@ -84,7 +92,9 @@ export default function shortUrl() {
 
   d.addEventListener("click", (e) => {
     if (e.target.matches(".btn-copy")) {
-      let linkCopy = shortsLinks.filter((el) => el.id === e.target.dataset.id);
+      let linkCopy = shortsLinks.filter(
+        (el) => el.id_copy_btn === e.target.dataset.id
+      );
       let url = linkCopy[0].full_short_link_3;
       navigator.clipboard
         .writeText(url)
@@ -100,6 +110,13 @@ export default function shortUrl() {
           console.log(err);
           e.target.textContent = "Error!";
         });
+    }
+
+    if (e.target.matches(".btn-delete")) {
+      shortsLinks = shortsLinks.filter(
+        (el) => el.id_delete_btn !== e.target.dataset.id
+      );
+      addTemplateShorternedLink();
     }
   });
 

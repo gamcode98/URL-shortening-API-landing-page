@@ -12,6 +12,7 @@
   --Gray-Opacity: hsla(0, 0%, 75%, 0.2);
   --Grayish-Violet: hsl(257, 7%, 63%);
   --Very-Dark-Blue: hsl(255, 11%, 22%);
+  --Very-Dark-Blue-Opacity: hsl(255, 11%, 41%);
   --Very-Dark-Violet: hsl(260, 8%, 14%);
   --White: hsl(100, 100%, 100%);
   /*Typography */
@@ -122,7 +123,7 @@ h1 {
   background-repeat: no-repeat;
   background-position: right top;
   background-color: var(--Dark-Violet);
-  margin-bottom: 2.5rem;
+  margin-bottom: 4.5rem;
 }
 input {
   box-sizing: border-box;
@@ -165,7 +166,7 @@ input[type="text"].isInvalid {
 .link-shorterned-container {
   border-radius: 0.5rem;
   transform: translateY(-50%);
-  margin-bottom: 1.2rem;
+  margin-bottom: 1.5rem;
   background-color: var(--White);
 }
 
@@ -185,6 +186,7 @@ input[type="text"].isInvalid {
 .link-shorterned p {
   color: var(--Cyan);
 }
+.btn-delete,
 .btn-copy {
   cursor: pointer;
   border: none;
@@ -196,8 +198,17 @@ input[type="text"].isInvalid {
   width: 100%;
   padding-top: 1rem;
   padding-bottom: 1rem;
-  background-color: var(--Cyan);
   color: var(--White);
+}
+.btn-delete {
+  background-color: var(--Very-Dark-Blue);
+}
+.btn-copy {
+  background-color: var(--Cyan);
+  margin-bottom: 0.8rem;
+}
+.btn-delete:hover {
+  background-color: var(--Very-Dark-Blue-Opacity);
 }
 .btn-copy:hover {
   background-color: var(--Cyan-High);
@@ -316,6 +327,10 @@ h2 + p {
 
 .attribution a {
   color: var(--Cyan);
+}
+dialog {
+  border: none;
+  background: transparent;
 }
 @media screen and (min-width: 768px) {
   .header-right {
@@ -448,6 +463,10 @@ h2 + p {
   .link-shorterned p {
     margin: 0;
   }
+  .btn-copy {
+    margin-bottom: initial;
+  }
+  .btn-delete,
   .btn-copy {
     width: 100px;
     padding: 0.7rem;
